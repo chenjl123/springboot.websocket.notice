@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"></meta>
+<title>Insert title here</title>
+</head>
+<body>
+<ul id="msg">
+
+</ul>
+</body>
+<script type="text/javascript" src="/jquery.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var websocket;
+        if ('WebSocket' in window) {
+            console.log("WebSocket");
+            websocket = new WebSocket("ws://localhost:8089/echo");
+        } else if ('MozWebSocket' in window) {
+            console.log("MozWebSocket");
+            websocket = new MozWebSocket("ws://echo");
+        } else {
+            console.log("SockJS");
+            websocket = new SockJS("http://127.0.0.1:8089/sockjs/echo");
+        }
+        websocket.onopen = function (evnt) {
+            console.log("链接服务器成功!", evnt.data);
+        };
+        websocket.onmessage = function (evnt) {
+            console.log('收到消息:', evnt.data);
+            var json = JSON.parse(evnt.data);
+            $("#msg").append('<li>'+json.msg+"</li>");
+        };
+        websocket.onerror = function (evnt) {
+        };
+        websocket.onclose = function (evnt) {
+            console.log("与服务器断开了链接!")
+        }
+    });
+</script>
+</html>

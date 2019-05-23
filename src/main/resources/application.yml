@@ -1,0 +1,14 @@
+spring:
+  ####配置 页面模板的参数，
+  freemarker:
+    charset: utf-8
+    suffix: .html
+    content-type: text/html
+  http:
+    encoding:
+      charset: UTF-8
+  #### 配置静态资源的地址。html文件中，可以直接使用/static/目录
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: ".html"
+    cache: false
